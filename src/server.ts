@@ -1,5 +1,11 @@
 import http from 'http';
 import app from './app';
+import dotenv from 'dotenv';
+
+dotenv.config();
+if (!process.env.PORT) {
+    throw new Error('PORT is not defined in environment variables');
+}
 
 const normalizePort = (val: string| number): number | string | false => {
     const port = typeof val === 'string' ? parseInt(val, 10) : val;
@@ -12,8 +18,12 @@ const normalizePort = (val: string| number): number | string | false => {
     return false;
 };
 
-const port = normalizePort(process.env.PRT || '3000');
+const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
+
+if (port === false) {
+    throw new Error('Invalid port')
+}
 
 const errorHandler = (error: NodeJS.ErrnoException) => {
     if(error.syscall !== 'listen') {

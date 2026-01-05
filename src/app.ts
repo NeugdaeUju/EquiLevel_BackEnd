@@ -1,21 +1,34 @@
 import Express from 'express';
 import mongoose from 'mongoose';
-import path from 'path';
+import dotenv from 'dotenv';
 
 import userRoutes from './routes/user';
+dotenv.config();
+
+if (!process.env.MONGODB_URL) {
+    throw new Error('MONGODB_URL is not defined in environment variables')
+}
+
+const mongoUrl = process.env.MONGODB_URL;
+
+if (!mongoUrl) {
+    throw new Error('MONGODB_URL is not defined');
+}
 
 const app = Express();
-const mongoUrl: string = 'mongodb+srv://leilaplltr_db_user:PUDNlotcidLn7xJA@cluster0.rva7ps5.mongodb.net/?appName=Cluster0';
+// const mongoUrl: string = '';
 mongoose.connect(mongoUrl)
     .then(() => console.log('Connected to MongoDB'))
-    .catch(() => console.log('Failed to connect to MongoDB'));
+    .catch((error) => {
+        console.error('Failed to connect to MongoDB', error);
+        process.exit(1);});
 
 app.use(Express.json());
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader('Accces-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    res.setHeader('AccesS-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
 
