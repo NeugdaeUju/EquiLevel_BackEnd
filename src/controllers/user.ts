@@ -29,3 +29,38 @@ export const signUp: RequestHandler = async (req, res) => {
     }
 }
 
+export const logIn: RequestHandler = async (req, res) => {
+    try {
+        const user = await User.findOne({
+            email: req.body.email,
+        });
+        if (!user) {
+            res.status(401).json({
+                message: 'Authentification failed',
+            });
+            return;
+        };
+        
+        const valid = await bcrypt.compare( req.body.password, user.password);
+        if (!valid) {
+            res.status(401).json({
+                message : 'Authentification failed',
+            });
+        };
+
+        res.status(200).json({
+            userId: user._id,
+            token: jwt.sign(
+                { userId: user._id },
+                'RAMDOM_TOKEN_SECRET',
+                { expiresIn: '24h'},
+            ),
+        });
+        
+    } catch (error) {
+        res.status(500).json({
+            message: 'Server error',
+            error,
+        });
+    };
+};
