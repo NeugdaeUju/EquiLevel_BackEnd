@@ -31,19 +31,23 @@ export const signUp: RequestHandler = async (req, res) => {
 
 export const logIn: RequestHandler = async (req, res) => {
     try {
-        const user = await User.findOne({
-            email: req.body.email,
-        });
+        const { email, password } = req.body
+        if (!email || !password) {
+            return res.status(400).json({
+                message: 'Email ans password required',
+            })
+        }
+
+        const user = await User.findOne({ email });
         if (!user) {
-            res.status(401).json({
+            return res.status(401).json({
                 message: 'Authentification failed',
             });
-            return;
         };
         
         const valid = await bcrypt.compare( req.body.password, user.password);
         if (!valid) {
-            res.status(401).json({
+            return res.status(401).json({
                 message : 'Authentification failed',
             });
         };
