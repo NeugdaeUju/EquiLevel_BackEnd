@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import userRoutes from './routes/user';
+import especesRoutes from './routes/especes'
 dotenv.config();
 
 if (!process.env.MONGODB_URL) {
@@ -32,6 +33,7 @@ app.use(cors({
 app.use(Express.json());
 
 app.use('/api/auth', userRoutes);
+app.use('/api/especes', especesRoutes)
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Route not found' });
