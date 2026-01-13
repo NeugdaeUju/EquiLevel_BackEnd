@@ -34,7 +34,7 @@ export const logIn: RequestHandler = async (req, res) => {
         const { email, password } = req.body
         if (!email || !password) {
             return res.status(400).json({
-                message: 'Email ans password required',
+                message: 'Email and password required',
             })
         }
 
@@ -52,13 +52,15 @@ export const logIn: RequestHandler = async (req, res) => {
             });
         };
 
-        res.status(200).json({
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.JWT_SECRET!,
+            {expiresIn: '24h'}
+            
+        );
+        return res.status(200).json({
             userId: user._id,
-            token: jwt.sign(
-                { userId: user._id },
-                'RAMDOM_TOKEN_SECRET',
-                { expiresIn: '24h'},
-            ),
+            token
         });
         
     } catch (error) {

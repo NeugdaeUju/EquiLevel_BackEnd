@@ -8,6 +8,6 @@ const router = express.Router()
 router.post('/', auth, especesCtrl.createEspece)
 
 // Requêtes GET (Récupérer les espèces)
-
+router.get('/', especesCtrl.getAllEspeces)
 
 export default router
