@@ -39,7 +39,7 @@ export const getAllEspeces: RequestHandler = async (req, res) => {
     try {
         const especes = await Especes.find();
         res.status(200).json({
-            message: "La lisete des espèces",
+            message: "La liste des espèces",
             especes
         });
     } catch (error) {

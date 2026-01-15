@@ -10,4 +10,8 @@ router.post('/', auth, racesCtrl.createRace)
 // Requêtes GET (Récupérer les espèces)
 router.get('/', racesCtrl.getAllRaces)
 
+
+// Requête DELETE (supprimer une espèce)
+router.delete('/:id', auth, racesCtrl.deleteRaces)
+
 export default router
