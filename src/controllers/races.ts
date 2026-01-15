@@ -48,3 +48,19 @@ export const createRace: RequestHandler = async (req, res) => {
         });
     };
 };
+
+
+export const getAllRaces: RequestHandler = async (req, res) => {
+    try {
+        const races = await Races.find();
+        res.status(200).json({
+            message: "La lisete des espèces",
+            races
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Il y a eu une erreur !',
+            error
+        })
+    }
+}

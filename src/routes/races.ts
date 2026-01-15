@@ -7,4 +7,7 @@ const router = express.Router()
 // Requête POST (Créer une espèces)
 router.post('/', auth, racesCtrl.createRace)
 
+// Requêtes GET (Récupérer les espèces)
+router.get('/', racesCtrl.getAllRaces)
+
 export default router
