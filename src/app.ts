@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 
 import userRoutes from './routes/user';
+import raceRoutes from './routes/race';
+import horseRoutes from './routes/horse';
 
 if (!process.env.MONGODB_URL) {
     throw new Error('MONGODB_URL is not defined in environment variables')
@@ -34,6 +36,8 @@ app.use(cors({
 app.use(Express.json());
 
 app.use('/api/auth', userRoutes);
+app.use('/api/races', raceRoutes);
+app.use('/api/horses', horseRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Route not found' });
